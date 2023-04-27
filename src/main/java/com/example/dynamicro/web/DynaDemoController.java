@@ -51,8 +51,8 @@ public class DynaDemoController {
     }
 
     @GetMapping(value = "/demo")
-    public void headers(@RequestHeader HttpHeaders headers, @RequestParam(name = "internal", required = false) boolean internalSpan,
-                        @RequestParam(required = false) boolean propagation, @RequestParam(required = false) String url) throws JsonProcessingException {
+    public void demo(@RequestHeader HttpHeaders headers, @RequestParam(name = "internal", required = false) boolean internalSpan,
+                     @RequestParam(required = false) boolean propagation, @RequestParam(required = false) String url) throws JsonProcessingException {
         Map<String, Object> logData = new HashMap<>();
         logData.put("control", "FIRST");
         logData.put("headers", objectMapper.writeValueAsString(headers));
@@ -77,11 +77,23 @@ public class DynaDemoController {
         }
         if (propagation) {
             if (url == null) {
-                restTemplate.getForObject("/demo", String.class);
+                restTemplate.getForObject("/headers", String.class);
             } else {
-                restTemplateBuilder.rootUri(url).build().getForObject("/demo", String.class);
+                restTemplateBuilder.rootUri(url).build().getForObject("/headers", String.class);
             }
         }
+    }
+
+    @GetMapping
+    public void headers(@RequestHeader HttpHeaders headers) throws JsonProcessingException {
+        Map<String, Object> logData = new HashMap<>();
+        logData.put("control", "SECOND");
+        logData.put("headers", objectMapper.writeValueAsString(headers));
+        logData.put("MDC", objectMapper.writeValueAsString(MDC.getCopyOfContextMap()));
+        var context = microTracer.currentSpan().context();
+        logData.put("tracer", "{ \"traceId\": \"" + context.traceId() + "\", \"spanId\": \"" + context.spanId() + "\", \"parentId\": \"" + context.parentId() + "\"}");
+        log.info(objectMapper.writeValueAsString(logData).replace("\\\"", "\"")
+                .replace("\"{", "{").replace("}\"", "}"));
     }
 
 }

@@ -29,11 +29,17 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webflux</artifactId>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-tracing-bridge-otel</artifactId>
-		</dependency>
-
+		</dependency>-->
+		<!--<dependency>
+			<groupId>com.isb.rigel</groupId>
+			<artifactId>rigel-trxop</artifactId>
+			<scope>system</scope>
+			<version>37.1.SR16-SNAPSHOT</version>
+			<systemPath>${basedir}/app.jar</systemPath>
+		</dependency>-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

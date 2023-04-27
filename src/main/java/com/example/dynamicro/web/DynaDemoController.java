@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.observation.Observation;
 import io.micrometer.observation.ObservationRegistry;
-import io.micrometer.tracing.Tracer;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +27,8 @@ public class DynaDemoController {
 //    @Autowired
 //    Tracer otelTracer;
 
-    @Autowired
-    Tracer microTracer;
+//    @Autowired
+//    Tracer microTracer;
 
     @Autowired
     ObservationRegistry observationRegistry;
@@ -57,8 +56,8 @@ public class DynaDemoController {
         logData.put("control", "FIRST");
         logData.put("headers", objectMapper.writeValueAsString(headers));
         logData.put("MDC", objectMapper.writeValueAsString(MDC.getCopyOfContextMap()));
-        var context = microTracer.currentSpan().context();
-        logData.put("tracer", "{ \"traceId\": \"" + context.traceId() + "\", \"spanId\": \"" + context.spanId() + "\", \"parentId\": \"" + context.parentId() + "\"}");
+//        var context = microTracer.currentSpan().context();
+//        logData.put("tracer", "{ \"traceId\": \"" + context.traceId() + "\", \"spanId\": \"" + context.spanId() + "\", \"parentId\": \"" + context.parentId() + "\"}");
         log.info(objectMapper.writeValueAsString(logData).replace("\\\"", "\"")
                 .replace("\"{", "{").replace("}\"", "}"));
         logData.clear();
@@ -69,8 +68,8 @@ public class DynaDemoController {
                 // Get context from internalObservation
                 logData.put("control", "INTERNALSPAN");
                 logData.put("MDC", objectMapper.writeValueAsString(MDC.getCopyOfContextMap()));
-                context = microTracer.currentSpan().context();
-                logData.put("tracer", "{ \"traceId\": \"" + context.traceId() + "\", \"spanId\": \"" + context.spanId() + "\", \"parentId\": \"" + context.parentId() + "\"}");
+//                context = microTracer.currentSpan().context();
+//                logData.put("tracer", "{ \"traceId\": \"" + context.traceId() + "\", \"spanId\": \"" + context.spanId() + "\", \"parentId\": \"" + context.parentId() + "\"}");
                 log.info(objectMapper.writeValueAsString(logData).replace("\\\"", "\"")
                         .replace("\"{", "{").replace("}\"", "}"));
             }
@@ -90,8 +89,8 @@ public class DynaDemoController {
         logData.put("control", "SECOND");
         logData.put("headers", objectMapper.writeValueAsString(headers));
         logData.put("MDC", objectMapper.writeValueAsString(MDC.getCopyOfContextMap()));
-        var context = microTracer.currentSpan().context();
-        logData.put("tracer", "{ \"traceId\": \"" + context.traceId() + "\", \"spanId\": \"" + context.spanId() + "\", \"parentId\": \"" + context.parentId() + "\"}");
+//        var context = microTracer.currentSpan().context();
+//        logData.put("tracer", "{ \"traceId\": \"" + context.traceId() + "\", \"spanId\": \"" + context.spanId() + "\", \"parentId\": \"" + context.parentId() + "\"}");
         log.info(objectMapper.writeValueAsString(logData).replace("\\\"", "\"")
                 .replace("\"{", "{").replace("}\"", "}"));
     }

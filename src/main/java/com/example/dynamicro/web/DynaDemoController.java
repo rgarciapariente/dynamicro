@@ -84,7 +84,7 @@ public class DynaDemoController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/headers")
     public void headers(@RequestHeader HttpHeaders headers) throws JsonProcessingException {
         Map<String, Object> logData = new HashMap<>();
         logData.put("control", "SECOND");
